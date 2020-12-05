@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from 'socket.io-client';
-
+import {Link} from 'react-router-dom'
 import TextContainer from './TextContainer';
 import Messages from './Messages';
 import InfoBar from './InfoBar';
 import Input from './Input';
+import onlineIcon from '../icons/onlineIcon.png';
+import closeIcon from '../icons/closeIcon.png';
 
 import './Chat.css';
 
@@ -53,23 +55,35 @@ const Chat = ({ location }) => {
     }
   }
 
+  const startChechkingTyping = () => {
+    
+  }
+
   console.log(messages, message)
 
   return (
     <div className="outerContainer">
       <div className="container">
-          <InfoBar room={room} />
+        <div className="infoBar">
+          <div className="leftInnerContainer">
+            <img className="onlineIcon" src={onlineIcon} alt="online icon" />
+            <h3>{room}</h3>
+          </div>
+          <div className="rightInnerContainer">
+            <Link to="/"><img src={closeIcon} alt="close icon" /></Link>
+          </div>
+        </div>
           <Messages messages={messages} name={name} />
-          <form>
-          <input
-            className="input"
-            type="text"
-            placeholder="Type a message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
-          />
-         <button className="sendButton" onClick={e => sendMessage(e)}>Send</button>
+          <form className="form">
+            <input
+              className="input"
+              type="text"
+              placeholder="Type a message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
+            />
+            <button className="sendButton" onClick={e => sendMessage(e)}>Send</button>
           </form>
       </div>
       <TextContainer users={users}/>
